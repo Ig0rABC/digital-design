@@ -1,6 +1,7 @@
 <div class="wrapper">
   <form class="task-form">
-    <input class="task-input" type="text" name="createTaskInput" placeholder="Input new task here.." [(ngModel)]="newTaskInput" />
+    <input class="task-input" type="text" name="createTaskInput" placeholder="Input new task here.."
+      [(ngModel)]="newTaskInput" />
     <input class="task__controls_completed" type="button" value="Add" (click)="addTask()">
   </form>
   <div class="sections">
@@ -9,14 +10,24 @@
         CURRENT TASKS
       </div>
       <div *ngFor="let task of getCurrentTasks()">
-        <div class="current-task">
-          <div class="task__title">
-            {{task.title}}
-          </div>
-          <div class="task__controls">
-            <button (click)="editTask(task)" class="task__controls_edit">Edit</button>
-            <button (click)="completeTask(task)" class="task__controls_completed">Complete</button>
-            <button (click)="deleteTask(task.id)" class="task__controls_delete">Delete</button>
+        <div *ngIf="task.id === editingTaskId">
+          <form class="task-form task">
+            <input class="task-input" type="text" name="editingTaskInput" placeholder="Input new task here.."
+              [(ngModel)]="editingTaskInput" />
+            <input class="task__controls_completed" type="button" value="Update" (click)="updateTask(task)">
+            <input class="task__controls_edit" type="button" value="cancel" (click)="cancelEditTask()" />
+          </form>
+        </div>
+        <div *ngIf="task.id !== editingTaskId">
+          <div class="current task">
+            <div class="task__title">
+              {{task.title}}
+            </div>
+            <div class="task__controls">
+              <button (click)="editTask(task)" class="task__controls_edit">Edit</button>
+              <button (click)="completeTask(task)" class="task__controls_completed">Complete</button>
+              <button (click)="deleteTask(task.id)" class="task__controls_delete">Delete</button>
+            </div>
           </div>
         </div>
       </div>
@@ -26,7 +37,7 @@
         COMPLETED TASKS
       </div>
       <div *ngFor="let task of getCompletedTasks()">
-        <div class="completed-task">
+        <div class="completed task">
           <div class="task__title">
             {{task.title}}
           </div>

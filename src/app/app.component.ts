@@ -17,7 +17,10 @@ const API_URL = 'https://jsonplaceholder.typicode.com/todos/';
 export class AppComponent implements OnInit {
 
   tasks: Task[] = [];
-  newTaskInput: string = "";
+  editingTaskId: number | undefined;
+
+  newTaskInput = "";
+  editingTaskInput = ""
 
   constructor(private httpClient: HttpClient) { }
 
@@ -60,15 +63,21 @@ export class AppComponent implements OnInit {
   }
 
   editTask(task: Task) {
-    console.log("EDIT", task.id, task.title);
+    this.editingTaskInput = task.title;
+    this.editingTaskId = task.id;
+  }
+
+  cancelEditTask() {
+    this.editingTaskInput = "";
+    this.editingTaskId = undefined;
   }
 
   updateTask(task: Task) {
-    this.httpClient.put<Task>(API_URL + task.id, {
-      ...task
-    }).subscribe(response => {
-      this.refreshTask(response);
-    });
+    this.httpClient.put<Task>(API_URL + task.id, { ...task, title: this.editingTaskInput })
+      .subscribe(response => {
+        this.refreshTask(response);
+        this.cancelEditTask();
+      });
   }
 
   deleteTask(taskId: number) {
@@ -79,11 +88,8 @@ export class AppComponent implements OnInit {
   }
 
   addTask() {
-    this.httpClient.post<Task>(API_URL, {
-      id: 10,
-      title: this.newTaskInput,
-      completed: false
-    }).subscribe(response => {
+    this.httpClient.post<Task>(API_URL, { title: this.newTaskInput })
+      .subscribe(response => {
       this.tasks.push(response);
       this.newTaskInput = "";
     })

@@ -49,12 +49,7 @@
     font-family: 'Caladea';
 }
 
-.current-task {
-    @extend .task;
-}
-
-.completed-task {
-    @extend .task;
+.completed {
     .task__title {
         color: gray;
         text-decoration: line-through;
@@ -75,6 +70,7 @@
     border-radius: 5px;
     box-shadow: gainsboro 0 5px 4px;
     user-select: none;
+    cursor: pointer;
     &:focus {
         outline: none;
     }
