@@ -1,33 +1,39 @@
 <div class="wrapper">
-  <div class="tasks-section">
-    <div class="section-title">
-      CURRENT TASKS
-    </div>
-    <div *ngFor="let task of getCurrentTasks()">
-      <div class="current-task">
-        <div class="task__title">
-          {{task.title}}
-        </div>
-        <div class="task__controls">
-          <button (click)="editTask(task)" class="task__controls_edit">Edit</button>
-          <button (click)="completeTask(task)" class="task__controls_completed">Complete</button>
-          <button (click)="deleteTask(task.id)" class="task__controls_delete">Delete</button>
+  <form class="task-form">
+    <input class="task-input" type="text" name="createTaskInput" placeholder="Input new task here.." [(ngModel)]="newTaskInput" />
+    <input class="task__controls_completed" type="button" value="Add" (click)="addTask()">
+  </form>
+  <div class="sections">
+    <div class="section">
+      <div class="section-title">
+        CURRENT TASKS
+      </div>
+      <div *ngFor="let task of getCurrentTasks()">
+        <div class="current-task">
+          <div class="task__title">
+            {{task.title}}
+          </div>
+          <div class="task__controls">
+            <button (click)="editTask(task)" class="task__controls_edit">Edit</button>
+            <button (click)="completeTask(task)" class="task__controls_completed">Complete</button>
+            <button (click)="deleteTask(task.id)" class="task__controls_delete">Delete</button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="tasks-section">
-    <div class="section-title">
-      COMPLETED TASKS
-    </div>
-    <div *ngFor="let task of getCompletedTasks()">
-      <div class="completed-task">
-        <div class="task__title">
-          {{task.title}}
-        </div>
-        <div class="task__controls">
-          <button (click)="returnTaskToCurrent(task)" class="task__controls_return">Return</button>
-          <button (click)="deleteTask(task.id)" class="task__controls_delete">Delete</button>
+    <div class="section">
+      <div class="section-title">
+        COMPLETED TASKS
+      </div>
+      <div *ngFor="let task of getCompletedTasks()">
+        <div class="completed-task">
+          <div class="task__title">
+            {{task.title}}
+          </div>
+          <div class="task__controls">
+            <button (click)="returnTaskToCurrent(task)" class="task__controls_return">Return</button>
+            <button (click)="deleteTask(task.id)" class="task__controls_delete">Delete</button>
+          </div>
         </div>
       </div>
     </div>

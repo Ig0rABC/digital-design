@@ -2,13 +2,19 @@
 
 .wrapper {
     display: flex;
+    flex-direction: column;
+    row-gap: 2.25rem;
+}
+
+.sections {
+    display: flex;
     justify-content: space-evenly;
     @media (max-width: 968px) {
         justify-content: space-between;
     }
 }
 
-.tasks-section {
+.section {
     display: flex;
     flex-direction: column;
     row-gap: .5rem;
@@ -107,4 +113,17 @@
 }
 .task__controls_return {
     @extend .task__control;
+}
+
+.task-form {
+    display: flex;
+    justify-content: center;
+    column-gap: .25rem;
+}
+
+.task-input {
+    font-size: 1.5rem;
+    padding: .66rem;
+    width: 70%;
+    font-family: 'Caladea';
 }
