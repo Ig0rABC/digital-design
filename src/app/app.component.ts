@@ -7,7 +7,7 @@ type Task = {
   completed: boolean
 }
 
-const API_URL = 'https://jsonplaceholder.typicode.com/users/1/todos';
+const API_URL = 'https://jsonplaceholder.typicode.com/todos/';
 
 @Component({
   selector: 'app-root',
@@ -16,7 +16,7 @@ const API_URL = 'https://jsonplaceholder.typicode.com/users/1/todos';
 })
 export class AppComponent implements OnInit {
 
-  tasks = [] as Task[];
+  tasks: Task[] = [];
 
   constructor(private httpClient: HttpClient) { }
 
@@ -27,8 +27,13 @@ export class AppComponent implements OnInit {
   fetchTasks() {
     this.httpClient.get<Task[]>(API_URL)
       .subscribe(response => {
-        this.tasks = response.slice(10);
+        this.tasks = response.slice(0, 10);
       });
+  }
+
+  private refreshTask(task: Task) {
+    const index = this.tasks.map(t => t.id).indexOf(task.id);
+    this.tasks[index] = task;
   }
 
   getCurrentTasks() {
@@ -39,30 +44,41 @@ export class AppComponent implements OnInit {
     return this.tasks.filter(task => task.completed);
   }
 
-  completeTask(taskId: number) {
-    // REQUEST with PUT method
-    const task = this.tasks.find(task => task.id === taskId);
-    if (task) {
-      task.completed = true;
-    }
+  completeTask(task: Task) {
+    this.httpClient.put<Task>(API_URL + task.id, {
+      ...task,
+      completed: true
+    }).subscribe(response => {
+      this.refreshTask(response);
+    });
   }
 
-  returnTaskToCurrent(taskId: number) {
-    // REQUEST with PUT method
-    const task = this.tasks.find(task => task.id === taskId);
-    if (task) {
-      task.completed = false;
-    }
+  returnTaskToCurrent(task: Task) {
+    this.httpClient.put<Task>(API_URL + task.id, {
+      ...task,
+      completed: false
+    }).subscribe(response => {
+      this.refreshTask(response);
+    });
   }
 
   editTask(task: Task) {
-    // REQUEST with PUT method
     console.log("EDIT", task.id, task.title);
   }
 
+  updateTask(task: Task) {
+    this.httpClient.put<Task>(API_URL + task.id, {
+      ...task
+    }).subscribe(response => {
+      this.refreshTask(response);
+    });
+  }
+
   deleteTask(taskId: number) {
-    // REQUEST with DELETE method
-    this.tasks = this.tasks.filter(task => task.id !== taskId);
+    this.httpClient.delete(API_URL + taskId)
+      .subscribe(() => {
+        this.tasks = this.tasks.filter(task => task.id !== taskId);
+      });
   }
 
 }
