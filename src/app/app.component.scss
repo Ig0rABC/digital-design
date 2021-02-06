@@ -1,0 +1,110 @@
+@import url('https://fonts.googleapis.com/css2?family=Caladea&display=swap');
+
+.wrapper {
+    display: flex;
+    justify-content: space-evenly;
+    @media (max-width: 968px) {
+        justify-content: space-between;
+    }
+}
+
+.tasks-section {
+    display: flex;
+    flex-direction: column;
+    row-gap: .5rem;
+    width: 35rem;
+    @media (max-width: 1280px) {
+        width: 28rem;
+    }
+    @media (max-width: 968px) {
+        width: 24rem;
+    }
+    @media (max-width: 768px) {
+        width: 16rem;
+    }
+}
+
+.section-title {
+    text-align: right;
+    font-size: 1.75rem;
+}
+
+.task {
+    display: flex;
+    @media (max-width: 768px) {
+        flex-direction: column;
+    }
+    padding: .66rem;
+    justify-content: space-between;
+    border-top: solid black 1px;
+    column-gap: .75rem;
+    align-items: center;
+    font-size: 1.75rem;
+    font-family: 'Caladea';
+}
+
+.current-task {
+    @extend .task;
+}
+
+.completed-task {
+    @extend .task;
+    .task__title {
+        color: gray;
+        text-decoration: line-through;
+    }
+}
+
+.task__controls {
+    display: flex;
+    column-gap: .125rem;
+}
+
+.task__control {
+    background-color: black;
+    color: whitesmoke;
+    font-size: 1.25rem;
+    padding: .75rem;
+    border: none;
+    border-radius: 5px;
+    box-shadow: gainsboro 0 5px 4px;
+    user-select: none;
+    &:focus {
+        outline: none;
+    }
+    &:active {
+        box-shadow: gainsboro 0 3px 2px;
+        transform: translate(0, 2px);
+    }
+    &:hover {
+        background-color: gray;
+        transition-duration: 225ms;
+    }
+    @media (max-width: 1280px) {
+        padding: .66rem;
+        font-size: 1.125rem;
+    }
+}
+
+.task__controls_completed {
+    @extend .task__control;
+    background-color: darkblue;
+    &:hover {
+        background-color: blue;
+    }
+}
+
+.task__controls_delete {
+    @extend .task__control;
+    background-color: darkred;
+    &:hover {
+        background-color: brown;
+    }
+}
+
+.task__controls_edit {
+    @extend .task__control;
+}
+.task__controls_return {
+    @extend .task__control;
+}
