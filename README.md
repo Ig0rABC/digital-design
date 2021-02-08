@@ -1,27 +1,30 @@
-# DigitalDesign
+# Тестовое задание для Digital Design
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.1.2.
+## Запуск
 
-## Development server
+#### Node JS: https://nodejs.org
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+#### Angular CLI: `npm install -g @angular/cli`
 
-## Code scaffolding
+#### `git clone https://github.com/Igor1py/digital-design`
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+#### `cd digital-design`
 
-## Build
+#### `ng serve`
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+Открыть http://localhost:4200 в браузере
 
-## Running unit tests
+## Описание
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Все запросы на сервер находятся в главном компоненте `app`, для чего импортировал `HttpClientModule`. Для работы с формами `FormsModule`.
 
-## Running end-to-end tests
+#### Выделил 3 отдельных компонента:
+* для каждого задания `task`,
+* для создания новых заданий `new-task-form`,
+* для обновления названия задания `edit-task-form`
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+Панели с выполненными и невыполненными заданиями находятся в шаблоне `app`. У компонента есть 2 соответствующих метода: `getCurrentTasks` и `getCompletedTasks`.
+ 
+ID редактируемого задания находится в `app`. В его шаблоне проверяется `task.id === editingTaskId`, если да, то получаем `edit-task-form`, если нет `task`.
 
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Для кнопок написал 2 основных класса: `filled-button` и `contained-button`, которые можно наследовать и расширять.
