@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Task } from 'src/types';
+import { getRandomNumber } from 'src/utils';
 
 const API_URL = 'https://jsonplaceholder.typicode.com/todos/';
 
@@ -14,13 +15,6 @@ export class AppComponent implements OnInit {
   tasks: Task[] = [];
   editingTaskId: number | undefined;
 
-  taskHandlers = {
-    delete: this.deleteTask.bind(this),
-    edit: this.editTask.bind(this),
-    complete: this.completeTask.bind(this),
-    returnToCurrent: this.returnTaskToCurrent.bind(this)
-  }
-
   constructor(private httpClient: HttpClient) { }
 
   ngOnInit() {
@@ -30,7 +24,12 @@ export class AppComponent implements OnInit {
   fetchTasks() {
     this.httpClient.get<Task[]>(API_URL)
       .subscribe(response => {
-        this.tasks = response.slice(0, 10);
+        for (let i = 0; i < 10; i++) {
+          const task = response[getRandomNumber(response.length)];
+          if (!this.tasks.includes(task)) {
+            this.tasks.push(task);
+          }
+        }
       });
   }
 
@@ -52,9 +51,9 @@ export class AppComponent implements OnInit {
   completeTask(taskId: number) {
     const task = this.tasks.find(t => t.id === taskId);
     if (task) {
-      this.httpClient.put<Task>(API_URL + task.id, { ...task, completed: true })
+      this.httpClient.put<Task>(API_URL + task.id, { ...task, id: 1, completed: true })
         .subscribe(response => {
-          this.refreshTask(response);
+          this.refreshTask({ ...response, id: task.id });
         });
     }
   }
@@ -62,9 +61,9 @@ export class AppComponent implements OnInit {
   returnTaskToCurrent(taskId: number) {
     const task = this.tasks.find(t => t.id === taskId);
     if (task) {
-      this.httpClient.put<Task>(API_URL + task.id, { ...task, completed: false })
+      this.httpClient.put<Task>(API_URL + task.id, { ...task, id: 1, completed: false })
         .subscribe(response => {
-          this.refreshTask(response);
+          this.refreshTask({ ...response, id: task.id });
         });
     }
   }
@@ -86,9 +85,9 @@ export class AppComponent implements OnInit {
     }
     const task = this.tasks.find(t => t.id === taskId);
     if (task) {
-      this.httpClient.put<Task>(API_URL + task.id, { ...task, title })
+      this.httpClient.put<Task>(API_URL + task.id, { ...task, id: 1, title })
         .subscribe(response => {
-          this.refreshTask(response);
+          this.refreshTask({ ...response, id: task.id });
           this.cancelEditTask();
         });
     }
