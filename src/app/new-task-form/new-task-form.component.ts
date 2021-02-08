@@ -9,16 +9,10 @@ export class NewTaskFormComponent {
 
   input = "";
 
-  @Input() handler?: (title: string) => void;
+  @Input() add: (title: string) => void = () => { };
 
-  add() {
-    console.log("ADD METHOD");
-    if (this.handler) {
-      console.log(true);
-      this.handler(this.input);
-    } else {
-      console.log(false);
-    }
+  addAndClear() {
+    this.add(this.input);
     this.input = "";
   }
 

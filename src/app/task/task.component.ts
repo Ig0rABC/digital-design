@@ -8,13 +8,15 @@ import { Task } from 'src/types';
 })
 export class TaskComponent {
 
-  @Input() task!: Task;
-  @Input() handlers!: {
-    delete: (taskId: number) => void,
-    edit: (taskId: number) => void,
-    complete: (taskId: number) => void,
-    returnToCurrent: (taskId: number) => void
+  @Input() task: Task = {
+    id: 0,
+    title: "NO TITLE",
+    completed: false
   };
+  @Input() edit: (taskId: number) => void = () => { };
+  @Input() delete: (taskId: number) => void = () => { };
+  @Input() complete: (taskId: number) => void = () => { };
+  @Input() returnToCurrent: (taskId: number) => void = () => { };
 
   constructor() { }
 

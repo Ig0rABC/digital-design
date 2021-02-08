@@ -1,0 +1,6 @@
+<form class="task-form task">
+    <input class="task-input" type="text" name="editTaskInput" placeholder="Input updated task here.."
+        [(ngModel)]="input" />
+    <input class="update-button" type="button" value="Update" (click)="update(taskId, input)">
+    <input class="cancel-button" type="button" value="cancel" (click)="cancel()" />
+</form>

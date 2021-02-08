@@ -1,4 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Caladea&display=swap');
 @import '../styles.scss';
 
 .wrapper {
@@ -35,29 +34,4 @@
 .section-title {
     text-align: right;
     font-size: 1.75rem;
-}
-
-.update-button {
-    @extend .filled-button;
-    background-color: darkblue;
-    &:hover {
-        background-color: blue;
-    }
-}
-
-.cancel-edit-button {
-    @extend .outlined-button;
-}
-
-.task-form {
-    display: flex;
-    justify-content: center;
-    column-gap: .25rem;
-}
-
-.task-input {
-    font-size: 1.5rem;
-    padding: .66rem;
-    width: 70%;
-    font-family: 'Caladea';
 }

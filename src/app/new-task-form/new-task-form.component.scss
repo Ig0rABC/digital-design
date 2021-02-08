@@ -22,8 +22,13 @@
     @extend .filled-button;
     width: 6.5rem;
     border-radius: 0 5px 5px 0;
+    box-shadow: none;
     background-color: darkblue;
     &:hover {
         background-color: blue;
+    }
+    &:active {
+        transform: none;
+        box-shadow: none;
     }
 }

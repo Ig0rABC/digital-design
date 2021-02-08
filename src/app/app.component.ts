@@ -14,8 +14,6 @@ export class AppComponent implements OnInit {
   tasks: Task[] = [];
   editingTaskId: number | undefined;
 
-  editingTaskInput = "";
-
   taskHandlers = {
     delete: this.deleteTask.bind(this),
     edit: this.editTask.bind(this),
@@ -42,7 +40,9 @@ export class AppComponent implements OnInit {
   }
 
   getCurrentTasks() {
-    return this.tasks.filter(task => !task.completed).sort();
+    return this.tasks
+      .filter(task => !task.completed)
+      .sort((a, b) => a.title < b.title ? -1 : a.title > b.title ? 1 : 0);
   }
 
   getCompletedTasks() {
@@ -72,22 +72,26 @@ export class AppComponent implements OnInit {
   editTask(taskId: number) {
     const task = this.tasks.find(t => t.id === taskId);
     if (task) {
-      this.editingTaskInput = task.title;
       this.editingTaskId = task.id;
     }
   }
 
   cancelEditTask() {
-    this.editingTaskInput = "";
     this.editingTaskId = undefined;
   }
 
-  updateTask(task: Task) {
-    this.httpClient.put<Task>(API_URL + task.id, { ...task, title: this.editingTaskInput })
-      .subscribe(response => {
-        this.refreshTask(response);
-        this.cancelEditTask();
-      });
+  updateTask(taskId: number, title: string) {
+    if (!title) {
+      return;
+    }
+    const task = this.tasks.find(t => t.id === taskId);
+    if (task) {
+      this.httpClient.put<Task>(API_URL + task.id, { ...task, title })
+        .subscribe(response => {
+          this.refreshTask(response);
+          this.cancelEditTask();
+        });
+    }
   }
 
   deleteTask(taskId: number) {
@@ -98,7 +102,9 @@ export class AppComponent implements OnInit {
   }
 
   addTask(title: string) {
-    console.log("ADD THIS:", this);
+    if (!title) {
+      return;
+    }
     this.httpClient.post<Task>(API_URL, { title })
       .subscribe(response => {
         this.tasks.push(response);
