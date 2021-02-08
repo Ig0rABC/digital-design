@@ -1,11 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-
-type Task = {
-  id: number,
-  title: string,
-  completed: boolean
-}
+import { Task } from 'src/types';
 
 const API_URL = 'https://jsonplaceholder.typicode.com/todos/';
 
@@ -21,6 +16,13 @@ export class AppComponent implements OnInit {
 
   newTaskInput = "";
   editingTaskInput = ""
+
+  taskHandlers = {
+    delete: this.deleteTask.bind(this),
+    edit: this.editTask.bind(this),
+    complete: this.completeTask.bind(this),
+    returnToCurrent: this.returnTaskToCurrent.bind(this)
+  }
 
   constructor(private httpClient: HttpClient) { }
 
@@ -48,23 +50,32 @@ export class AppComponent implements OnInit {
     return this.tasks.filter(task => task.completed);
   }
 
-  completeTask(task: Task) {
-    this.httpClient.put<Task>(API_URL + task.id, { ...task, completed: true })
-      .subscribe(response => {
-        this.refreshTask(response);
-      });
+  completeTask(taskId: number) {
+    const task = this.tasks.find(t => t.id === taskId);
+    if (task) {
+      this.httpClient.put<Task>(API_URL + task.id, { ...task, completed: true })
+        .subscribe(response => {
+          this.refreshTask(response);
+        });
+    }
   }
 
-  returnTaskToCurrent(task: Task) {
-    this.httpClient.put<Task>(API_URL + task.id, { ...task, completed: false })
-      .subscribe(response => {
-        this.refreshTask(response);
-      });
+  returnTaskToCurrent(taskId: number) {
+    const task = this.tasks.find(t => t.id === taskId);
+    if (task) {
+      this.httpClient.put<Task>(API_URL + task.id, { ...task, completed: false })
+        .subscribe(response => {
+          this.refreshTask(response);
+        });
+    }
   }
 
-  editTask(task: Task) {
-    this.editingTaskInput = task.title;
-    this.editingTaskId = task.id;
+  editTask(taskId: number) {
+    const task = this.tasks.find(t => t.id === taskId);
+    if (task) {
+      this.editingTaskInput = task.title;
+      this.editingTaskId = task.id;
+    }
   }
 
   cancelEditTask() {
@@ -90,9 +101,9 @@ export class AppComponent implements OnInit {
   addTask() {
     this.httpClient.post<Task>(API_URL, { title: this.newTaskInput })
       .subscribe(response => {
-      this.tasks.push(response);
-      this.newTaskInput = "";
-    })
+        this.tasks.push(response);
+        this.newTaskInput = "";
+      })
   }
 
 }

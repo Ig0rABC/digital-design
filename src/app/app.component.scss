@@ -1,9 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Caladea&display=swap');
+@import '../styles.scss';
 
 .wrapper {
     display: flex;
     flex-direction: column;
-    row-gap: 2.25rem;
+    padding-top: .66rem;
+    row-gap: 2rem;
 }
 
 .sections {
@@ -35,80 +37,24 @@
     font-size: 1.75rem;
 }
 
-.task {
-    display: flex;
-    @media (max-width: 768px) {
-        flex-direction: column;
-    }
-    padding: .66rem;
-    justify-content: space-between;
-    border-top: solid black 1px;
-    column-gap: .75rem;
-    align-items: center;
-    font-size: 1.75rem;
-    font-family: 'Caladea';
-}
-
-.completed {
-    .task__title {
-        color: gray;
-        text-decoration: line-through;
-    }
-}
-
-.task__controls {
-    display: flex;
-    column-gap: .125rem;
-}
-
-.task__control {
-    background-color: black;
-    color: whitesmoke;
-    font-size: 1.25rem;
-    padding: .75rem;
-    border: none;
-    border-radius: 5px;
-    box-shadow: gainsboro 0 5px 4px;
-    user-select: none;
-    cursor: pointer;
-    &:focus {
-        outline: none;
-    }
-    &:active {
-        box-shadow: gainsboro 0 3px 2px;
-        transform: translate(0, 2px);
-    }
-    &:hover {
-        background-color: gray;
-        transition-duration: 225ms;
-    }
-    @media (max-width: 1280px) {
-        padding: .66rem;
-        font-size: 1.125rem;
-    }
-}
-
-.task__controls_completed {
-    @extend .task__control;
+.add-button {
+    @extend .filled-button;
     background-color: darkblue;
     &:hover {
         background-color: blue;
     }
 }
 
-.task__controls_delete {
-    @extend .task__control;
-    background-color: darkred;
+.update-button {
+    @extend .filled-button;
+    background-color: darkblue;
     &:hover {
-        background-color: brown;
+        background-color: blue;
     }
 }
 
-.task__controls_edit {
-    @extend .task__control;
-}
-.task__controls_return {
-    @extend .task__control;
+.cancel-edit-button {
+    @extend .outlined-button;
 }
 
 .task-form {

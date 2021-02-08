@@ -1,0 +1,19 @@
+<div *ngIf="!task.completed" class="current task">
+    <div class="title">
+        {{task.title}}
+    </div>
+    <div class="controls">
+        <button (click)="handlers.edit(task.id)" class="edit-button">Edit</button>
+        <button (click)="handlers.complete(task.id)" class="done-button">Done</button>
+        <button (click)="handlers.delete(task.id)" class="delete-button">Delete</button>
+    </div>
+</div>
+<div *ngIf="task.completed" class="completed task">
+    <div class="title">
+        {{task.title}}
+    </div>
+    <div class="controls">
+        <button (click)="handlers.returnToCurrent(task.id)" class="return-button">Return</button>
+        <button (click)="handlers.delete(task.id)" class="delete-button">Delete</button>
+    </div>
+</div>

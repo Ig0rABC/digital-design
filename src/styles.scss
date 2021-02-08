@@ -1,0 +1,44 @@
+.button {
+    font-size: 1.25rem;
+    padding: .75rem;
+    border-radius: 5px;
+    box-shadow: gainsboro 0 5px 4px;
+    user-select: none;
+    cursor: pointer;
+    &:focus {
+        outline: none;
+    }
+    &:active {
+        box-shadow: gainsboro 0 3px 2px;
+        transform: translate(0, 2px);
+    }
+    &:hover {
+        transition-duration: 225ms;
+    }
+    @media (max-width: 1280px) {
+        padding: .66rem;
+        font-size: 1.125rem;
+    }
+}
+
+.filled-button {
+    @extend .button;
+    color: whitesmoke;
+    background-color: black;
+    border: none;
+    &:hover {
+        background-color: darkslategray;
+    }
+}
+
+.outlined-button {
+    @extend .button;
+    border-color: black;
+    border-style: solid;
+    background-color: inherit;
+    border-inline-width: 2px;
+    &:hover {
+        border-color: darkslategray;
+        color: darkslategray;
+    }
+}

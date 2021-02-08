@@ -1,0 +1,52 @@
+@import '../../styles.scss';
+
+.task {
+    display: flex;
+    @media (max-width: 768px) {
+        flex-direction: column;
+    }
+    padding: .66rem;
+    justify-content: space-between;
+    border-top: solid black 1px;
+    column-gap: .75rem;
+    align-items: center;
+    font-size: 1.75rem;
+    font-family: 'Caladea';
+}
+
+.completed {
+    .title {
+        color: gray;
+        text-decoration: line-through;
+    }
+}
+
+.controls {
+    display: flex;
+    column-gap: .15rem;
+}
+
+.done-button {
+    @extend .filled-button;
+    background-color: darkblue;
+    &:hover {
+        background-color: blue;
+    }
+}
+
+.delete-button {
+    @extend .outlined-button;
+    color: darkred;
+    border-color: darkred;
+    &:hover {
+        border-color: crimson;
+        color: crimson;
+    }
+}
+
+.edit-button {
+    @extend .outlined-button;
+}
+.return-button {
+    @extend .filled-button;
+}
