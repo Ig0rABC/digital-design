@@ -37,14 +37,6 @@
     font-size: 1.75rem;
 }
 
-.add-button {
-    @extend .filled-button;
-    background-color: darkblue;
-    &:hover {
-        background-color: blue;
-    }
-}
-
 .update-button {
     @extend .filled-button;
     background-color: darkblue;

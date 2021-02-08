@@ -37,8 +37,12 @@
     border-style: solid;
     background-color: inherit;
     border-inline-width: 2px;
+    text-shadow: gainsboro 0 5px 4px;
     &:hover {
         border-color: darkslategray;
         color: darkslategray;
+    }
+    &:active {
+        text-shadow: gainsboro 0 3px 2px;
     }
 }

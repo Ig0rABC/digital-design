@@ -1,13 +1,9 @@
 <div class="wrapper">
-  <form class="task-form">
-    <input class="task-input" type="text" name="createTaskInput" placeholder="Input new task here.."
-      [(ngModel)]="newTaskInput" />
-    <input class="add-button" type="button" value="Add" (click)="addTask()">
-  </form>
+  <app-new-task-form [handler]="addTask.bind(this)"></app-new-task-form>
   <div class="sections">
     <div class="section">
       <div class="section-title">
-        CURRENT TASKS
+        CURRENT
       </div>
       <div *ngFor="let task of getCurrentTasks()">
         <form *ngIf="task.id === editingTaskId" class="task-form task">
@@ -21,7 +17,7 @@
     </div>
     <div class="section">
       <div class="section-title">
-        COMPLETED TASKS
+        COMPLETED
       </div>
       <div *ngFor="let task of getCompletedTasks()">
         <app-task [task]="task" [handlers]="taskHandlers"></app-task>

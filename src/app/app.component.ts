@@ -14,8 +14,7 @@ export class AppComponent implements OnInit {
   tasks: Task[] = [];
   editingTaskId: number | undefined;
 
-  newTaskInput = "";
-  editingTaskInput = ""
+  editingTaskInput = "";
 
   taskHandlers = {
     delete: this.deleteTask.bind(this),
@@ -98,11 +97,11 @@ export class AppComponent implements OnInit {
       });
   }
 
-  addTask() {
-    this.httpClient.post<Task>(API_URL, { title: this.newTaskInput })
+  addTask(title: string) {
+    console.log("ADD THIS:", this);
+    this.httpClient.post<Task>(API_URL, { title })
       .subscribe(response => {
         this.tasks.push(response);
-        this.newTaskInput = "";
       })
   }
 
