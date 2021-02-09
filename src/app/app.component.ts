@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { TasksService } from './tasks.service';
 import { Task } from 'src/types';
-import { getRandomNumber } from 'src/utils';
-
-const API_URL = 'https://jsonplaceholder.typicode.com/todos/';
 
 @Component({
   selector: 'app-root',
@@ -15,22 +12,16 @@ export class AppComponent implements OnInit {
   tasks: Task[] = [];
   editingTaskId: number | undefined;
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(
+    private tasksService: TasksService
+  ) { }
 
   ngOnInit() {
     this.fetchTasks();
   }
 
-  fetchTasks() {
-    this.httpClient.get<Task[]>(API_URL)
-      .subscribe(response => {
-        for (let i = 0; i < 10; i++) {
-          const task = response[getRandomNumber(response.length)];
-          if (!this.tasks.includes(task)) {
-            this.tasks.push(task);
-          }
-        }
-      });
+  async fetchTasks() {
+    this.tasks = await this.tasksService.get();
   }
 
   private refreshTask(task: Task) {
@@ -48,23 +39,19 @@ export class AppComponent implements OnInit {
     return this.tasks.filter(task => task.completed);
   }
 
-  completeTask(taskId: number) {
+  async completeTask(taskId: number) {
     const task = this.tasks.find(t => t.id === taskId);
     if (task) {
-      this.httpClient.put<Task>(API_URL + task.id, { ...task, id: 1, completed: true })
-        .subscribe(response => {
-          this.refreshTask({ ...response, id: task.id });
-        });
+      const updatedTask = await this.tasksService.update({ ...task, completed: true });
+      this.refreshTask(updatedTask);
     }
   }
 
-  returnTaskToCurrent(taskId: number) {
+  async returnTaskToCurrent(taskId: number) {
     const task = this.tasks.find(t => t.id === taskId);
     if (task) {
-      this.httpClient.put<Task>(API_URL + task.id, { ...task, id: 1, completed: false })
-        .subscribe(response => {
-          this.refreshTask({ ...response, id: task.id });
-        });
+      const updatedTask = await this.tasksService.update({ ...task, completed: false });
+      this.refreshTask(updatedTask);
     }
   }
 
@@ -79,35 +66,29 @@ export class AppComponent implements OnInit {
     this.editingTaskId = undefined;
   }
 
-  updateTask(taskId: number, title: string) {
+  async updateTask(taskId: number, title: string) {
     if (!title) {
       return;
     }
     const task = this.tasks.find(t => t.id === taskId);
     if (task) {
-      this.httpClient.put<Task>(API_URL + task.id, { ...task, id: 1, title })
-        .subscribe(response => {
-          this.refreshTask({ ...response, id: task.id });
-          this.cancelEditTask();
-        });
+      const updatedTask = await this.tasksService.update({ ...task, title });
+      this.refreshTask(updatedTask);
+      this.cancelEditTask();
     }
   }
 
-  deleteTask(taskId: number) {
-    this.httpClient.delete(API_URL + taskId)
-      .subscribe(() => {
-        this.tasks = this.tasks.filter(task => task.id !== taskId);
-      });
+  async deleteTask(taskId: number) {
+    await this.tasksService.delete(taskId);
+    this.tasks = this.tasks.filter(task => task.id !== taskId);
   }
 
-  addTask(title: string) {
+  async addTask(title: string) {
     if (!title) {
       return;
     }
-    this.httpClient.post<Task>(API_URL, { title })
-      .subscribe(response => {
-        this.tasks.push(response);
-      })
+    const task = await this.tasksService.create(title);
+    this.tasks.push(task);
   }
 
 }
